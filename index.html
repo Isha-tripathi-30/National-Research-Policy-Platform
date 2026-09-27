@@ -1,0 +1,680 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>National Research & Policy Platform</title>
+<style>
+* { box-sizing: border-box; }
+:root {
+  --navy: #12345a;
+  --blue: #1765a6;
+  --gold: #e6a82c;
+  --light: #f3f6fa;
+  --text: #26364a;
+}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--light);
+  color: var(--text);
+}
+header {
+  background: white;
+  border-bottom: 1px solid #dce3eb;
+  padding: 14px 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.brand { display: flex; align-items: center; gap: 12px; }
+.logo {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--navy); color: white;
+  display: grid; place-items: center; font-size: 24px;
+}
+.brand h2 { margin: 0; color: var(--navy); font-size: 17px; }
+.brand small { color: #697789; }
+nav { display: flex; gap: 8px; flex-wrap: wrap; }
+nav button {
+  border: 0; background: transparent; padding: 10px 12px;
+  cursor: pointer; color: var(--navy); font-weight: 600;
+  border-radius: 6px;
+}
+nav button:hover, nav button.active { background: #e8f1fa; }
+.hero {
+  background: linear-gradient(110deg, #102f52, #1765a6);
+  color: white; padding: 62px 7%;
+}
+.hero-content { max-width: 850px; }
+.hero .eyebrow { color: #ffd477; font-weight: bold; letter-spacing: 1px; }
+.hero h1 { font-size: clamp(28px, 5vw, 45px); line-height: 1.15; margin: 15px 0; }
+.hero p { font-size: 17px; line-height: 1.7; max-width: 700px; color: #e7eff8; }
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 25px; }
+.btn {
+  padding: 12px 18px; border: 0; border-radius: 6px;
+  font-weight: bold; cursor: pointer; text-decoration: none;
+  display: inline-block; font-size: 14px;
+}
+.btn-gold { background: var(--gold); color: #182d42; }
+.btn-white { background: white; color: var(--navy); }
+.btn-blue { background: var(--blue); color: white; }
+.btn-outline { background: white; color: var(--navy); border: 1px solid #ccd7e3; }
+.container { max-width: 1180px; margin: auto; padding: 32px 20px; }
+.section-head {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px; margin-bottom: 20px;
+}
+h2.section-title { margin: 0; color: var(--navy); font-size: 25px; }
+.muted { color: #6b7b8d; line-height: 1.6; }
+.stats {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 16px; margin-top: -25px; position: relative;
+}
+.stat, .card {
+  background: white; border: 1px solid #e1e7ee;
+  border-radius: 10px; padding: 20px;
+}
+.stat strong { display: block; font-size: 28px; color: var(--navy); }
+.stat span { color: #6d7d8f; font-size: 14px; }
+.grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+.card h3 { color: var(--navy); margin: 10px 0; font-size: 18px; }
+.card p { line-height: 1.6; color: #647487; font-size: 14px; }
+.tag {
+  display: inline-block; background: #e9f2fb; color: #1b5f98;
+  padding: 5px 9px; border-radius: 20px; font-size: 12px;
+}
+.card-footer { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 16px; }
+.card-footer small { color: #758398; }
+.page { display: none; }
+.page.active { display: block; }
+.filters {
+  display: grid; grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 10px; margin-bottom: 20px;
+}
+input, select, textarea {
+  width: 100%; border: 1px solid #ccd6e1; border-radius: 6px;
+  padding: 12px; background: white; font: inherit; color: var(--text);
+}
+textarea { min-height: 100px; resize: vertical; }
+label { display: block; font-weight: 600; margin: 13px 0 7px; font-size: 14px; }
+.empty {
+  background: white; border: 1px dashed #b9c6d5; padding: 35px;
+  text-align: center; border-radius: 10px; color: #6b7b8d;
+  grid-column: 1 / -1;
+}
+.info-box {
+  background: #eaf3fb; border-left: 4px solid var(--blue);
+  padding: 15px; line-height: 1.6; margin: 18px 0; border-radius: 4px;
+}
+.feature-icon { font-size: 27px; }
+.form-card { max-width: 750px; margin: auto; }
+footer {
+  background: #102f52; color: white; text-align: center;
+  padding: 25px 15px; margin-top: 35px;
+}
+footer p { color: #d5e0ed; font-size: 13px; }
+.modal-backdrop {
+  display: none; position: fixed; inset: 0; background: #102033a8;
+  z-index: 10; align-items: center; justify-content: center; padding: 15px;
+}
+.modal-backdrop.open { display: flex; }
+.modal {
+  background: white; border-radius: 10px; padding: 25px;
+  max-width: 650px; width: 100%; max-height: 85vh; overflow: auto;
+}
+.modal-top { display: flex; justify-content: space-between; gap: 15px; }
+.close { background: none; border: 0; font-size: 25px; cursor: pointer; }
+@media(max-width:800px) {
+  .stats { grid-template-columns: repeat(2,1fr); }
+  .grid { grid-template-columns: repeat(2,1fr); }
+  .filters { grid-template-columns: 1fr 1fr; }
+}
+@media(max-width:540px) {
+  header { padding: 12px 4%; }
+  nav { width: 100%; }
+  nav button { padding: 8px; font-size: 12px; }
+  .grid, .stats, .filters { grid-template-columns: 1fr; }
+  .hero { padding: 42px 6%; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo">🏛</div>
+    <div>
+      <h2>National Research & Policy Platform</h2>
+      <small>Knowledge • Innovation • Governance</small>
+    </div>
+  </div>
+  <nav>
+    <button class="active" data-page="home">Home</button>
+    <button data-page="research">Research</button>
+    <button data-page="policy">Policy & Innovation</button>
+    <button data-page="dashboard">Dashboard</button>
+    <button data-page="upload">Upload</button>
+  </nav>
+</header>
+
+<main>
+  <!-- HOME -->
+  <section id="home" class="page active">
+    <div class="hero">
+      <div class="hero-content">
+        <div class="eyebrow">A KNOWLEDGE-DRIVEN INDIA</div>
+        <h1>Research, Innovation & Evidence-Based Governance</h1>
+        <p>
+          A digital knowledge platform to discover research, explore
+          policy ideas, and connect evidence with public decision-making.
+        </p>
+        <div class="hero-actions">
+          <button class="btn btn-gold" onclick="showPage('research')">
+            Explore Research
+          </button>
+          <button class="btn btn-white" onclick="showPage('policy')">
+            Discover Policy Ideas
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="stats">
+        <div class="stat"><strong id="homeDocs">0</strong><span>Research documents</span></div>
+        <div class="stat"><strong>06</strong><span>Focus areas</span></div>
+        <div class="stat"><strong id="homeYears">0</strong><span>Publication years</span></div>
+        <div class="stat"><strong>24/7</strong><span>Knowledge access</span></div>
+      </div>
+
+      <div style="margin-top:45px">
+        <div class="section-head">
+          <div>
+            <h2 class="section-title">Explore the platform</h2>
+            <p class="muted">Discover resources and policy research across key areas.</p>
+          </div>
+        </div>
+        <div class="grid">
+          <div class="card">
+            <div class="feature-icon">📚</div>
+            <h3>Research Repository</h3>
+            <p>Search sample publications, reports and research documents by topic or year.</p>
+            <button class="btn btn-blue" onclick="showPage('research')">Explore</button>
+          </div>
+          <div class="card">
+            <div class="feature-icon">💡</div>
+            <h3>Policy Innovation</h3>
+            <p>Explore ideas and approaches for addressing public challenges through research.</p>
+            <button class="btn btn-blue" onclick="showPage('policy')">Explore</button>
+          </div>
+          <div class="card">
+            <div class="feature-icon">📊</div>
+            <h3>Knowledge Dashboard</h3>
+            <p>View the repository's document count and publication distribution.</p>
+            <button class="btn btn-blue" onclick="showPage('dashboard')">View dashboard</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section id="research" class="page">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">Research & Knowledge Repository</h2>
+          <p class="muted">Search the sample research catalogue and explore document cards.</p>
+        </div>
+        <button class="btn btn-blue" onclick="showPage('upload')">＋ Upload document</button>
+      </div>
+
+      <div class="filters">
+        <input id="searchInput" type="search" placeholder="Search publications..." />
+        <select id="topicFilter">
+          <option value="">All topics</option>
+          <option>Governance</option>
+          <option>Education</option>
+          <option>Healthcare</option>
+          <option>Agriculture</option>
+          <option>Technology</option>
+          <option>Environment</option>
+        </select>
+        <select id="yearFilter">
+          <option value="">All years</option>
+        </select>
+        <button class="btn btn-outline" onclick="resetFilters()">Reset</button>
+      </div>
+
+      <div id="researchGrid" class="grid"></div>
+    </div>
+  </section>
+
+  <!-- POLICY -->
+  <section id="policy" class="page">
+    <div class="container">
+      <h2 class="section-title">Policy & Innovation</h2>
+      <p class="muted">Explore thematic areas where research can inform public policy.</p>
+      <div class="info-box">
+        Evidence-based governance uses reliable information, research findings
+        and evaluation to help inform public decisions. This section contains
+        illustrative themes for the project.
+      </div>
+      <div class="grid">
+        <div class="card">
+          <div class="feature-icon">🏛️</div>
+          <h3>Transparent Governance</h3>
+          <p>Explore digital public services, accountability, open data and transparent administration.</p>
+          <button class="btn btn-outline" onclick="searchTopic('Governance')">View research</button>
+        </div>
+        <div class="card">
+          <div class="feature-icon">🎓</div>
+          <h3>Education & Skills</h3>
+          <p>Explore education access, digital learning, skills development and evaluation.</p>
+          <button class="btn btn-outline" onclick="searchTopic('Education')">View research</button>
+        </div>
+        <div class="card">
+          <div class="feature-icon">🩺</div>
+          <h3>Public Healthcare</h3>
+          <p>Explore health systems, access to care, public health data and service delivery.</p>
+          <button class="btn btn-outline" onclick="searchTopic('Healthcare')">View research</button>
+        </div>
+        <div class="card">
+          <div class="feature-icon">🌾</div>
+          <h3>Agricultural Development</h3>
+          <p>Explore agricultural innovation, rural development and farmer-focused research.</p>
+          <button class="btn btn-outline" onclick="searchTopic('Agriculture')">View research</button>
+        </div>
+        <div class="card">
+          <div class="feature-icon">💻</div>
+          <h3>Digital Transformation</h3>
+          <p>Explore digital infrastructure, technology adoption and responsible innovation.</p>
+          <button class="btn btn-outline" onclick="searchTopic('Technology')">View research</button>
+        </div>
+        <div class="card">
+          <div class="feature-icon">🌱</div>
+          <h3>Environment & Sustainability</h3>
+          <p>Explore climate research, environmental data and sustainable development.</p>
+          <button class="btn btn-outline" onclick="searchTopic('Environment')">View research</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="dashboard" class="page">
+    <div class="container">
+      <h2 class="section-title">Research Dashboard</h2>
+      <p class="muted">A summary of documents in this browser's local repository.</p>
+      <div class="stats" style="margin-top:20px">
+        <div class="stat"><strong id="dashTotal">0</strong><span>Total documents</span></div>
+        <div class="stat"><strong id="dashTopics">0</strong><span>Topics represented</span></div>
+        <div class="stat"><strong id="dashLatest">—</strong><span>Latest publication year</span></div>
+        <div class="stat"><strong id="dashAdded">0</strong><span>Locally added documents</span></div>
+      </div>
+      <div class="card" style="margin-top:25px">
+        <h3>Documents by topic</h3>
+        <div id="topicStats"></div>
+      </div>
+      <div class="card" style="margin-top:20px">
+        <h3>Documents by year</h3>
+        <div id="yearStats"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UPLOAD -->
+  <section id="upload" class="page">
+    <div class="container">
+      <div class="card form-card">
+        <h2 class="section-title">Upload Research Document</h2>
+        <p class="muted">Add a document to your local demo repository.</p>
+        <div class="info-box">
+          This prototype saves document details in your browser. The selected
+          file is not uploaded to a server or shared with other users.
+        </div>
+        <form id="uploadForm">
+          <label for="docTitle">Document title *</label>
+          <input id="docTitle" required maxlength="120" placeholder="Enter research title">
+
+          <label for="docTopic">Topic *</label>
+          <select id="docTopic" required>
+            <option value="">Select a topic</option>
+            <option>Governance</option>
+            <option>Education</option>
+            <option>Healthcare</option>
+            <option>Agriculture</option>
+            <option>Technology</option>
+            <option>Environment</option>
+          </select>
+
+          <label for="docYear">Publication year *</label>
+          <input id="docYear" type="number" required min="1900" max="2100" placeholder="2026">
+
+          <label for="docAuthor">Author / Institution</label>
+          <input id="docAuthor" maxlength="100" placeholder="Author or institution name">
+
+          <label for="docDescription">Abstract / Description *</label>
+          <textarea id="docDescription" required maxlength="1500" placeholder="Write a short summary of the research"></textarea>
+
+          <label for="docFile">Choose a document file (optional)</label>
+          <input id="docFile" type="file" accept=".pdf,.txt,.doc,.docx">
+
+          <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-blue" type="submit">Save document</button>
+            <button class="btn btn-outline" type="reset">Clear form</button>
+          </div>
+          <p id="uploadMessage" role="status" class="muted"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <strong>National Digital Platform for Research, Policy Innovation & Evidence-Based Governance</strong>
+  <p>Academic project prototype • Sample content for demonstration</p>
+</footer>
+
+<!-- DOCUMENT DETAILS MODAL -->
+<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="modal-top">
+      <div>
+        <span class="tag" id="modalTopic"></span>
+        <h2 id="modalTitle"></h2>
+      </div>
+      <button class="close" onclick="closeModal()" aria-label="Close">×</button>
+    </div>
+    <p id="modalMeta" class="muted"></p>
+    <hr style="border:0;border-top:1px solid #e1e7ee">
+    <h3>Abstract / Description</h3>
+    <p id="modalDescription" style="line-height:1.7"></p>
+    <p id="modalFile" class="muted"></p>
+    <button class="btn btn-blue" onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = "nationalResearchPlatformDocs";
+
+const sampleDocs = [
+  {
+    id: "s1",
+    title: "Digital Land Records and Transparent Governance",
+    topic: "Governance",
+    year: 2025,
+    author: "Sample Research Catalogue",
+    description: "An illustrative overview of how digitised land records, accessible information and transparent administrative processes may support public service delivery.",
+    file: ""
+  },
+  {
+    id: "s2",
+    title: "Digital Learning and Educational Access",
+    topic: "Education",
+    year: 2024,
+    author: "Sample Research Catalogue",
+    description: "A sample research summary exploring digital learning resources, access to education and the importance of evaluating learning outcomes.",
+    file: ""
+  },
+  {
+    id: "s3",
+    title: "Technology and Public Healthcare Services",
+    topic: "Healthcare",
+    year: 2025,
+    author: "Sample Research Catalogue",
+    description: "An illustrative study of digital health information systems, service accessibility and the role of data in planning healthcare services.",
+    file: ""
+  },
+  {
+    id: "s4",
+    title: "Innovation in Sustainable Agriculture",
+    topic: "Agriculture",
+    year: 2023,
+    author: "Sample Research Catalogue",
+    description: "A demonstration entry about agricultural innovation, rural development and the use of research evidence in agricultural planning.",
+    file: ""
+  },
+  {
+    id: "s5",
+    title: "Artificial Intelligence in Public Administration",
+    topic: "Technology",
+    year: 2026,
+    author: "Sample Research Catalogue",
+    description: "An illustrative overview of potential applications of AI in public administration, including considerations for transparency and responsible use.",
+    file: ""
+  },
+  {
+    id: "s6",
+    title: "Climate Data for Sustainable Policy",
+    topic: "Environment",
+    year: 2024,
+    author: "Sample Research Catalogue",
+    description: "A sample entry discussing the role of environmental data, climate research and monitoring in evidence-informed policy development.",
+    file: ""
+  }
+];
+
+function getDocuments() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    return Array.isArray(saved) ? saved : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveDocuments(docs) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(docs));
+}
+
+function allDocuments() {
+  return [...sampleDocs, ...getDocuments()];
+}
+
+function showPage(pageId) {
+  document.querySelectorAll(".page").forEach(page => {
+    page.classList.toggle("active", page.id === pageId);
+  });
+  document.querySelectorAll("nav button").forEach(button => {
+    button.classList.toggle("active", button.dataset.page === pageId);
+  });
+  if (pageId === "research") renderResearch();
+  if (pageId === "dashboard") renderDashboard();
+  if (pageId === "home") renderHome();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.querySelectorAll("nav button").forEach(button => {
+  button.addEventListener("click", () => showPage(button.dataset.page));
+});
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  })[char]);
+}
+
+function renderResearch() {
+  const query = document.getElementById("searchInput").value.trim().toLowerCase();
+  const topic = document.getElementById("topicFilter").value;
+  const year = document.getElementById("yearFilter").value;
+
+  const docs = allDocuments().filter(doc => {
+    const matchesQuery = [doc.title, doc.author, doc.description, doc.topic]
+      .some(value => String(value || "").toLowerCase().includes(query));
+    return matchesQuery &&
+      (!topic || doc.topic === topic) &&
+      (!year || String(doc.year) === year);
+  });
+
+  const grid = document.getElementById("researchGrid");
+  if (!docs.length) {
+    grid.innerHTML = '<div class="empty">No matching publications found. Try changing your search or filters.</div>';
+    return;
+  }
+
+  grid.innerHTML = docs.map(doc => `
+    <article class="card">
+      <span class="tag">${escapeHTML(doc.topic)}</span>
+      <h3>${escapeHTML(doc.title)}</h3>
+      <p>${escapeHTML(doc.description)}</p>
+      <div class="card-footer">
+        <small>${escapeHTML(doc.year)} · ${escapeHTML(doc.author || "Author not listed")}</small>
+        <button class="btn btn-blue" onclick="viewDocument('${escapeHTML(doc.id)}')">View</button>
+      </div>
+    </article>
+  `).join("");
+}
+
+function populateYearFilter() {
+  const select = document.getElementById("yearFilter");
+  const current = select.value;
+  const years = [...new Set(allDocuments().map(doc => String(doc.year)))]
+    .sort((a, b) => Number(b) - Number(a));
+  select.innerHTML = '<option value="">All years</option>' +
+    years.map(year => `<option value="${escapeHTML(year)}">${escapeHTML(year)}</option>`).join("");
+  select.value = years.includes(current) ? current : "";
+}
+
+function resetFilters() {
+  document.getElementById("searchInput").value = "";
+  document.getElementById("topicFilter").value = "";
+  document.getElementById("yearFilter").value = "";
+  renderResearch();
+}
+
+function viewDocument(id) {
+  const doc = allDocuments().find(item => item.id === id);
+  if (!doc) return;
+
+  document.getElementById("modalTopic").textContent = doc.topic;
+  document.getElementById("modalTitle").textContent = doc.title;
+  document.getElementById("modalMeta").textContent =
+    `${doc.year} · ${doc.author || "Author not listed"}`;
+  document.getElementById("modalDescription").textContent = doc.description;
+  document.getElementById("modalFile").textContent = doc.file
+    ? "Selected file: " + doc.file
+    : "No attached file in this catalogue entry.";
+  document.getElementById("modalBackdrop").classList.add("open");
+}
+
+function closeModal() {
+  document.getElementById("modalBackdrop").classList.remove("open");
+}
+
+document.getElementById("modalBackdrop").addEventListener("click", event => {
+  if (event.target.id === "modalBackdrop") closeModal();
+});
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeModal();
+});
+
+function searchTopic(topic) {
+  showPage("research");
+  document.getElementById("topicFilter").value = topic;
+  renderResearch();
+}
+
+document.getElementById("searchInput").addEventListener("input", renderResearch);
+document.getElementById("topicFilter").addEventListener("change", renderResearch);
+document.getElementById("yearFilter").addEventListener("change", renderResearch);
+
+document.getElementById("uploadForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const title = document.getElementById("docTitle").value.trim();
+  const topic = document.getElementById("docTopic").value;
+  const year = Number(document.getElementById("docYear").value);
+  const author = document.getElementById("docAuthor").value.trim();
+  const description = document.getElementById("docDescription").value.trim();
+  const fileInput = document.getElementById("docFile");
+  const file = fileInput.files[0];
+
+  if (!title || !topic || !description || !Number.isInteger(year) ||
+      year < 1900 || year > 2100) {
+    document.getElementById("uploadMessage").textContent =
+      "Please fill in all required fields with a valid year.";
+    return;
+  }
+
+  const newDoc = {
+    id: "u" + Date.now(),
+    title, topic, year,
+    author: author || "User submitted",
+    description,
+    file: file ? file.name : ""
+  };
+
+  try {
+    const docs = getDocuments();
+    docs.push(newDoc);
+    saveDocuments(docs);
+    document.getElementById("uploadMessage").textContent =
+      "Document details saved successfully in this browser!";
+    event.target.reset();
+    populateYearFilter();
+    renderHome();
+  } catch (error) {
+    document.getElementById("uploadMessage").textContent =
+      "Could not save. Your browser storage may be full or unavailable.";
+  }
+});
+
+function renderHome() {
+  const docs = allDocuments();
+  document.getElementById("homeDocs").textContent = docs.length;
+  document.getElementById("homeYears").textContent =
+    new Set(docs.map(doc => doc.year)).size;
+}
+
+function renderDashboard() {
+  const docs = allDocuments();
+  const topics = [...new Set(docs.map(doc => doc.topic))];
+  const years = docs.map(doc => Number(doc.year)).filter(Number.isFinite);
+  document.getElementById("dashTotal").textContent = docs.length;
+  document.getElementById("dashTopics").textContent = topics.length;
+  document.getElementById("dashLatest").textContent =
+    years.length ? Math.max(...years) : "—";
+  document.getElementById("dashAdded").textContent = getDocuments().length;
+
+  const topicCounts = {};
+  const yearCounts = {};
+  docs.forEach(doc => {
+    topicCounts[doc.topic] = (topicCounts[doc.topic] || 0) + 1;
+    yearCounts[doc.year] = (yearCounts[doc.year] || 0) + 1;
+  });
+
+  document.getElementById("topicStats").innerHTML =
+    Object.entries(topicCounts).map(([name, count]) => `
+      <div style="margin:15px 0">
+        <div style="display:flex;justify-content:space-between;gap:10px">
+          <span>${escapeHTML(name)}</span><strong>${count}</strong>
+        </div>
+        <div style="background:#e7edf4;border-radius:20px;height:10px;overflow:hidden">
+          <div style="background:#1765a6;width:${count/docs.length*100}%;height:10px;border-radius:20px"></div>
+        </div>
+      </div>`).join("");
+
+  document.getElementById("yearStats").innerHTML =
+    Object.entries(yearCounts).sort((a,b) => Number(b[0])-Number(a[0]))
+      .map(([year,count]) => `
+        <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #edf0f4">
+          <span>${escapeHTML(year)}</span><strong>${count} documents</strong>
+        </div>`).join("");
+}
+
+populateYearFilter();
+renderHome();
+renderResearch();
+</script>
+</body>
+</html>
